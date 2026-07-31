@@ -1,0 +1,24 @@
+---
+
+- name: creazione file di testo
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: crea file
+      ansible.builtin.copy: 
+        content: "buon appetito, da fabio tozzi"
+        dest: /Users/jenny.bellucci/Desktop/PlaybookAWX/file.txt
+
+    - name: salva contenuto del file 
+      ansible.builtin.command: 
+        cmd: cat  /Users/jenny.bellucci/Desktop/PlaybookAWX/file.txt
+      register: messaggio
+
+    - name: stampa messaggio
+      ansible.builtin.debug:
+        msg: "{{ messaggio.stdout_lines }}"
+
+
+
+
