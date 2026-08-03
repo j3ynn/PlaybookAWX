@@ -8,18 +8,18 @@
 
     - name: crea cartella
       ansible.builtin.file:
-        path: /home/playbook
+        path: /tmp/playbook
         state: directory
         mode: "700"
 
     - name: crea file
       ansible.builtin.copy: 
         content: "buon appetito, da fabio tozzi"
-        dest: /home/playbook/file.txt
+        dest: /tmp/playbook/file.txt
 
     - name: salva contenuto del file 
       ansible.builtin.command: 
-        cmd: cat  /home/playbook/file.txt
+        cmd: cat  /tmp/playbook/file.txt
       register: messaggio
 
     - name: stampa messaggio
