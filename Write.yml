@@ -3,7 +3,6 @@
 - name: creazione file di testo
   hosts: localhost
   connection: local
-  become: true
 
   tasks:
 
