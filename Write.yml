@@ -5,14 +5,21 @@
   connection: local
 
   tasks:
+
+    - name: crea cartella
+      ansible.builtin.file:
+        path: /home/playbook
+        state: directory
+        mode: "700"
+
     - name: crea file
       ansible.builtin.copy: 
         content: "buon appetito, da fabio tozzi"
-        dest: /Users/jenny.bellucci/Desktop/PlaybookAWX/file.txt
+        dest: /home/playbook/file.txt
 
     - name: salva contenuto del file 
       ansible.builtin.command: 
-        cmd: cat  /Users/jenny.bellucci/Desktop/PlaybookAWX/file.txt
+        cmd: cat  /home/playbook/file.txt
       register: messaggio
 
     - name: stampa messaggio
