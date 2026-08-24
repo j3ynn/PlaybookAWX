@@ -1,0 +1,45 @@
+---
+
+- name: estrae metriche vm 
+  hosts: VmJ
+  gather_facts: true # salva i dati (chiamati facts) in variabili utilizzabli nel playbook
+
+  vars_files:
+    - VaultEmail.yml
+
+  tasks:
+
+  - name: mostra hostname
+    ansible.builtin.debug:
+      var: ansible_facts['hostname']
+
+  - name: mostra numero CPU 
+    ansible.builtin.debug:
+      var: ansible_facts['processor_vcpus']
+
+  - name: mostra RAM 
+    ansible.builtin.debug:
+      var: ansible_facts['memory_mb']['real']['total']
+
+  - name: mostra spazio disco (solo del filesystem root) 
+    ansible.builtin.debug:
+      var: ansible_facts['mounts'] | selectattr('mount', 'equalto', '/') | first
+
+  - name: salvo il corpo dell'email in una variabile
+    ansible.builtin.set_fact:
+      BodyEmail: "{{ lookup('template', 'Email.j2') }}"
+      #nome della nuova variabile + file template jinja2 affidato
+
+  - name: invia email 
+    community.general.mail:
+      host: "{{ host }}"
+      port: "{{ port }}"
+      username: "{{ username }}"
+      password: "{{ passwd }}"
+      to: "jennyna@gmail.com"
+      from: "fabio_tozzi@gmail.com"
+      subject: "Metriche VM"
+      body: "{{ BodyEmail }}"
+      secure: starttls 
+      #dice ad Ansible di usare la cifratura STARTTLS per la connessione
+

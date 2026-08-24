@@ -1,0 +1,9 @@
+report metriche vm 
+
+VM: {{ ansible_facts['hostname'] }}
+
+Le metriche rilevate sono:
+
+• CPU: {{ ansible_facts['processor_vcpus'] }} vCPU
+• RAM totale: {{ ansible_facts['memory_mb']['real']['total'] }} MB
+• Spazio disco disponibile: {{ ((ansible_facts['mounts'] | selectattr('mount', 'equalto', '/') | first).size_available / 1024 / 1024 / 1024) | round(2) }} GB
